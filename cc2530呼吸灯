@@ -1,0 +1,38 @@
+#include <ioCC2530.h>
+void delay(unsigned int time)
+{
+  unsigned int i;
+  unsigned char j;
+  for(i=0;i<time;i++)
+    for(j=0;j<1;j++)
+    {
+      asm("NOP");
+      asm("NOP");
+      asm("NOP");
+
+      asm("NOP");
+    }
+}
+void main()
+{
+  P1SEL&=~0xff;
+  P1DIR|=0xff;
+  unsigned int a=0,b=0;
+  while(1)
+  {
+      for(b=0;b<500;b++)
+      {
+        P1=0x03;
+        delay(b);
+        P1=0x00;
+        delay(500-b);
+      }
+      for(b=0;b<500;b++)
+      {
+        P1=0x00;
+        delay(b);
+        P1=0x03;
+        delay(500-b);
+      }
+  }
+}
